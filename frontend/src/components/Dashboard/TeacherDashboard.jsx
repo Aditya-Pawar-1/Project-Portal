@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import TProjectCard from './TProjectCard';
-import { getProjects } from '../api';
+import TProjectCard from '../Project/TProjectCard';
+import { getProjects } from '../../api';
 
 const TeacherDashboard = () => {
   const project = getProjects();

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { submitProject } from '../api';
+import { submitProject } from '../../api';
 
 const Submissions = () => {
   const [formData, setFormData] = useState({

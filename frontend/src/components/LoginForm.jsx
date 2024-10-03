@@ -17,6 +17,7 @@ const LoginForm = () => {
       const { data } = await login(formData);
       localStorage.setItem('token', data.token);
       const decoded = jwtDecode(data.token);
+      localStorage.setItem('user', JSON.stringify(decoded.user));
       const userId = decoded.user.id;
       const userRole = decoded.user.role;
       let navigateUrl = '/dashboard/' + userRole + '/' + userId

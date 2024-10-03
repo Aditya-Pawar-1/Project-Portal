@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
   const { Name, Email, role, ID, Password } = req.body;
 
-  console.log(Name, Email, role, ID, Password);
-
   try {
     let user = await User.findOne({ ID });
     if (user) return res.status(400).json({ message: "User already exists" });
@@ -21,7 +19,7 @@ exports.register = async (req, res) => {
           role,
           student: {
             Department: req.body.Department,
-            submittedProjects: req.body.submittedProjects,
+            submittedProjects: [],
           },
         });
         break;
@@ -34,8 +32,7 @@ exports.register = async (req, res) => {
           role,
           teacher: {
             Department: req.body.Department,
-            projectCreated: req.body.projectCreated,
-          }, // Add other teacher-specific fields here
+          },
         });
         break;
       default:
