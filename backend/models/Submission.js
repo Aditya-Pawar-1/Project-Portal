@@ -7,7 +7,7 @@ const submissionSchema = new mongoose.Schema({
     required: true,
   },
 
-  projectId: {
+  projectID: {
     type: mongoose.Types.ObjectId,
     ref: "Project",
   },

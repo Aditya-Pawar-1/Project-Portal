@@ -1,12 +1,15 @@
 const Submission = require("../models/Submission");
+const User = require("../models/User");
 
 exports.submitProject = async (req, res) => {
+  const studentId = req.params.studentID;
+  let user = await User.findOne({ ID: studentId });
   const { projectId, githubLink } = req.body;
 
   try {
     // Create the new submission
     const submission = new Submission({
-      studentId: req.user.id,
+      studentId: user._id,
       projectId,
       githubLink,
       projectReport: req.files?.paper?.[0]?.buffer,
@@ -19,7 +22,7 @@ exports.submitProject = async (req, res) => {
     res.json(submission);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).send("Server error", err.message);
   }
 };
 
@@ -39,9 +42,18 @@ exports.getSubmissions = async (req, res) => {
 
 exports.getStudentSubmissions = async (req, res) => {
   try {
-    const submissions = await Submission.find({ ID: req.params.studentId })
-      .populate("ID", "Department") // Replace with the actual fields in the User schema that you want to display
-      .populate("projectId", "title"); // Replace with the actual fields in the Project schema that you want to display
+    const userId = req.params.studentID; // Get the student ID from the request parameters
+    let user = await User.findOne({ ID: userId });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const submissions = await Submission.find({ studentId: user._id })
+      .populate("studentId")
+      .populate("submissionDate", "projectID"); // Adjust this to the correct field in the Submission schema
+console.log(submissions);
+
     res.json(submissions);
   } catch (err) {
     console.error(err.message);

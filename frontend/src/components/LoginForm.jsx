@@ -5,10 +5,10 @@ import { jwtDecode } from "jwt-decode";
 
 const LoginForm = () => {
 
-  const [role, setRole] = useState('Student');
-
-  const [formData, setFormData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+
+  const [role, setRole] = useState('Student');
+  const [formData, setFormData] = useState({ ID: '', Password: ''});
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = async (e) => {
@@ -23,7 +23,7 @@ const LoginForm = () => {
       let navigateUrl = '/dashboard/' + userRole + '/' + userId
       navigate(navigateUrl);
     } catch (error) {
-      console.error('Login error', error);
+      alert(error.message)
     }
   };
 

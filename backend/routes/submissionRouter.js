@@ -8,21 +8,21 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 router.post(
-  "/",
+  "/:studentID",
   auth(["student"]),
   upload.fields([
     { name: "presentation", maxCount: 1 },
     { name: "paper", maxCount: 1 },
-    { name: "photographs", maxCount: 5 }, 
+    { name: "photographs", maxCount: 5 },
   ]),
   submissionController.submitProject
 );
 
-router.get(
-  "/:projectId",
-  auth(["teacher", "admin"]),
-  submissionController.getSubmissions
-);
+// router.get(
+//   "/projects/:projectId",
+//   auth(["teacher", "admin"]),
+//   submissionController.getSubmissions
+// );
 
 router.get(
   "/:studentID",

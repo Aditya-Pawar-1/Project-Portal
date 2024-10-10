@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SProjectCard from '../Project/SProjectCard';
 import { getStudentSubmissions } from '../../api';
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
+  const [projects, setProjects] = useState([])
   let token = localStorage.getItem('token')
   const decoded = jwtDecode(token);
   const userId = decoded.user.id;
-  const project = Object.values(getStudentSubmissions(userId))
 
   const navigate = useNavigate()
   const handleNewSubmit = () => {
     navigate(`/submission/student/${userId}`)
   }
+
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      try {
+        const response = await getStudentSubmissions(userId);
+        setProjects(response.data); 
+        console.log(response.data);
+        
+      } catch (error) {
+        console.error("Error fetching student submissions:", error);
+      }
+    };
+
+    fetchSubmissions();
+  }, [userId]);
 
 
   return (
@@ -23,8 +38,8 @@ const StudentDashboard = () => {
         <button onClick={handleNewSubmit} className="bg-[#2A007E] text-white py-2 px-6 rounded-md">Submit New Project</button>
       </div>
       <div className="flex items-center justify-between flex-wrap gap-9 mx-10">
-        {project.length > 0 ? project.map((project, index) => (
-          <SProjectCard />
+        {projects.length > 0 ? projects.map((project, index) => (
+          <SProjectCard project={project} key={index} />
         ))
           : <h3 className='text-3xl text-neutral-600 font-bold my-4'>You don't have submitted any project</h3>
         }

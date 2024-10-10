@@ -86,7 +86,6 @@ const Sidebar = () => {
                             <FaProjectDiagram />
                             <span>Project</span>
                         </NavLink>
-                        :
                     </>
                     :
                     <NavLink
