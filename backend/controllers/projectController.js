@@ -1,19 +1,22 @@
 const Project = require("../models/Project");
+const User = require("../models/User");
 
 exports.createProject = async (req, res) => {
   try {
-    const { projectName, course, description, deadline } = req.body;
-
+    const { projectName, projectID, course, description, deadline } = req.body;
+    let teacher = await User.find({ ID: req.user.id });
+    let teacherId = teacher[0]._id;
     const project = new Project({
-      teacherId: req.user.id,
+      teacherId,
       projectName,
+      projectID,
       course,
       description,
       deadline,
     });
 
     await project.save();
-    res.json(project); 
+    res.json(project);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -22,8 +25,22 @@ exports.createProject = async (req, res) => {
 
 exports.getProjects = async (req, res) => {
   try {
-    const projects = await Project.find({ teacherId: req.user.userId });
+    let teacher = await User.find({ ID: req.user.id });
+    let teacherId = teacher[0]._id;
+    const projects = await Project.find({ teacherId });
     res.json(projects);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.getOneProject = async (req, res) => {
+  try {
+    let p = await Project.findOne({ projectID: req.params.PID });
+    console.log(p);
+    
+    res.json(p);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");

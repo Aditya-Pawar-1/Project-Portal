@@ -11,8 +11,18 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  
+  projectID: {
+    type: String,
+    required: true,
+  },
 
   course: {
+    type: String,
+    required: true,
+  },
+  
+  Department: {
     type: String,
     required: true,
   },

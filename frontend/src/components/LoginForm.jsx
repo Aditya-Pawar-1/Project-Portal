@@ -1,29 +1,39 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
-import { login } from '../api.js'
-import { jwtDecode } from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
+import { login } from '../api.js';
 
 const LoginForm = () => {
-
   const navigate = useNavigate();
-
-  const [role, setRole] = useState('Student');
-  const [formData, setFormData] = useState({ ID: '', Password: ''});
+  const [formData, setFormData] = useState({ ID: '', Password: '' });
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await login(formData);
+
+      if (!data || !data.token || !data.user) {
+        throw new Error('Invalid login response');
+      }
+
       localStorage.setItem('token', data.token);
-      const decoded = jwtDecode(data.token);
-      localStorage.setItem('user', JSON.stringify(decoded.user));
-      const userId = decoded.user.id;
-      const userRole = decoded.user.role;
-      let navigateUrl = '/dashboard/' + userRole + '/' + userId
-      navigate(navigateUrl);
+      localStorage.setItem('user', JSON.stringify(data.user)); // Save user data
+
+      const userString = localStorage.getItem('user');
+      const user = userString ? JSON.parse(userString) : null;
+
+      if (user) {
+        const userId = user.id;
+        const userRole = user.role;
+        let navigateUrl = '/dashboard/' + userRole + '/' + userId;
+        navigate(navigateUrl);
+      } else {
+        alert('User not found. Please log in again.');
+      }
     } catch (error) {
-      alert(error.message)
+      console.error('Error during login:', error);
+      alert(error.message);
     }
   };
 
@@ -41,17 +51,13 @@ const LoginForm = () => {
           </div>
           <div>
             <label className="block text-white mb-2">Password</label>
-            <input type="password" name='Password' placeholder='Password' className="w-full p-2 rounded-md" />
-          </div>
-          <div className="flex gap-5 items-center text-white">
-            <label>
-              <input type="radio" name="role" value="Student" checked={role === 'Student'} onChange={() => setRole('Student')} />
-              <span className="ml-2">Student</span>
-            </label>
-            <label>
-              <input type="radio" name="role" value="Teacher" checked={role === 'Teacher'} onChange={() => setRole('Teacher')} />
-              <span className="ml-2">Teacher</span>
-            </label>
+            <input
+              type="password"
+              name="Password"
+              placeholder="Password"
+              className="w-full p-2 rounded-md"
+              autoComplete="current-password"
+            />
           </div>
           <button className='bg-[#2A007E] text-white py-2 w-full rounded-md' type="submit">Login</button>
         </form>

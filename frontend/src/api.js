@@ -15,8 +15,9 @@ API.interceptors.request.use((req) => {
 // API functions
 export const login = (formData) => API.post("/api/auth/login", formData);
 export const register = (formData) => API.post("/api/auth/register", formData);
-export const getProjects = () => API.get("/api/projects");
 export const createProject = (formData) => API.post("/api/projects", formData);
+export const getProjects = () => API.get("/api/projects");
+export const getOneProject = (PID) => API.get(`/api/projects/${PID}`);
 export const getStudentSubmissions = (studentId) =>
   API.get(`/api/submissions/${studentId}`);
 export const submitProject = (formData, studentId) =>

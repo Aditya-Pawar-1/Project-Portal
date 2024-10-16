@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import SProjectCard from '../Project/SProjectCard';
 import { getStudentSubmissions } from '../../api';
-import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
 const StudentDashboard = () => {
   const [projects, setProjects] = useState([])
-  let token = localStorage.getItem('token')
-  const decoded = jwtDecode(token);
-  const userId = decoded.user.id;
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userId = user.id;
 
   const navigate = useNavigate()
   const handleNewSubmit = () => {
@@ -20,7 +18,6 @@ const StudentDashboard = () => {
       try {
         const response = await getStudentSubmissions(userId);
         setProjects(response.data); 
-        console.log(response.data);
         
       } catch (error) {
         console.error("Error fetching student submissions:", error);

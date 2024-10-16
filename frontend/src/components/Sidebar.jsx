@@ -7,7 +7,7 @@ const Sidebar = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     return (
-        <div className="w-[20vw]  h-screen bg-purple-600 text-white p-6">
+        <div className="w-[20vw]  min-h-screen max-h-full bg-purple-600 text-white p-6">
             <h1 className="text-3xl font-bold mb-10">Project Portal</h1>
             <nav className="space-y-8 pl-4 pt-5">
 
@@ -89,7 +89,7 @@ const Sidebar = () => {
                     </>
                     :
                     <NavLink
-                        to="/newteacher"
+                        to={`/dashboard/admin/${user.id}/addteacher`}
                         style={({ isActive, isPending, isTransitioning }) => {
                             return {
                                 fontWeight: isActive ? "bold" : "",

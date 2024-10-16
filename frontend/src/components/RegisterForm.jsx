@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { register } from '../api.js'
-import { jwtDecode } from "jwt-decode";
 
 const RegisterForm = () => {
 
@@ -15,9 +14,9 @@ const RegisterForm = () => {
     try {
       const { data } = await register(formData);
       localStorage.setItem('token', data.token);
-      const decoded = jwtDecode(data.token);
-      const userId = decoded.user.id;
-      const userRole = decoded.user.role;
+      const user = JSON.parse(localStorage.getItem('user'));
+      const userId = user.id;
+      const userRole = user.role;
       let navigateUrl = '/dashboard/' + userRole + '/' + userId
       navigate(navigateUrl);
     } catch (error) {

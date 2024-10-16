@@ -12,8 +12,13 @@ const submissionSchema = new mongoose.Schema({
     ref: "Project",
   },
 
+  PID: {
+    type: String,
+    required: true,
+  },
+
   submissionDate: {
-    type: Date ,
+    type: Date,
     required: true,
     default: Date.now(),
   },

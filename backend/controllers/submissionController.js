@@ -1,18 +1,22 @@
 const Submission = require("../models/Submission");
 const User = require("../models/User");
+const Project = require("../models/Project");
 
 exports.submitProject = async (req, res) => {
   const studentId = req.params.studentID;
   let user = await User.findOne({ ID: studentId });
-  const { projectId, githubLink } = req.body;
+  const { PID, githubLink } = req.body; 
+
+  let project = await Project.findOne({ projectID: PID });
 
   try {
     // Create the new submission
     const submission = new Submission({
       studentId: user._id,
-      projectId,
+      projectID: project._id,  
+      PID,
       githubLink,
-      projectReport: req.files?.paper?.[0]?.buffer,
+      projectReport: req.files?.projectReport?.[0]?.buffer,
       projectPresentation: req.files?.presentation?.[0]?.buffer,
       projectImages: req.files?.photographs?.map((file) => file.buffer),
     });
@@ -51,8 +55,7 @@ exports.getStudentSubmissions = async (req, res) => {
 
     const submissions = await Submission.find({ studentId: user._id })
       .populate("studentId")
-      .populate("submissionDate", "projectID"); // Adjust this to the correct field in the Submission schema
-console.log(submissions);
+      .populate("submissionDate", "projectID"); 
 
     res.json(submissions);
   } catch (err) {

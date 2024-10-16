@@ -5,6 +5,7 @@ const auth = require("../middlewares/authUser");
 
 router.post("/", auth(["teacher"]), projectController.createProject);
 router.get("/", auth(["teacher"]), projectController.getProjects);
+router.get("/:PID", auth(["student"]), projectController.getOneProject);
 router.patch("/:id/close", auth(["teacher"]), projectController.closeProject);
 
 module.exports = router;
