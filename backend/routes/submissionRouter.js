@@ -18,15 +18,15 @@ router.post(
   submissionController.submitProject
 );
 
-// router.get(
-//   "/projects/:projectId",
-//   auth(["teacher", "admin"]),
-//   submissionController.getSubmissions
-// );
+router.get(
+  "/download/:type/:id",
+  // auth(["teacher", "admin", "student"]),
+  submissionController.downloadFile
+);
 
 router.get(
   "/:studentID",
-  auth(["student"]),
+  auth(["student", "admin", "teacher"]),
   submissionController.getStudentSubmissions
 );
 

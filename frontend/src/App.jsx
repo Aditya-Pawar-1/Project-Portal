@@ -12,6 +12,11 @@ import AddTeacherForm from './components/Dashboard/AddTeacherForm';
 import EditTeacher from './components/Dashboard/EditTeacher';
 import CreateProject from './components/Project/CreateProject';
 import TeacherHome from './components/Dashboard/TeacherHome';
+import ProjectDetails from './components/Project/ProjectDetails';
+import StudentHome from './components/Dashboard/StudentHome';
+import About from './components/About';
+import Contact from './components/Contact';
+import TProjectList from './components/Project/TProjectList';
 
 function App() {
   return (
@@ -22,10 +27,19 @@ function App() {
           <Route path="register" element={<RegisterForm />} />
         </Route>
         <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="student/:id" element={<StudentDashboard />} />
+          <Route path="student/:id" element={<StudentDashboard />}>
+            <Route path="" element={<StudentHome />} />
+            <Route path=":PID" element={<ProjectDetails />} />
+            <Route path='about' element={<About />} />
+            <Route path='contact' element={<Contact />} />
+          </Route>
           <Route path="teacher/:id" element={<TeacherDashboard />}>
-            <Route path="" element={<TeacherHome />}/>
-            <Route path="createProject" element={<CreateProject />}/>
+            <Route path="" element={<TeacherHome />} />
+            <Route path="createProject" element={<CreateProject />} />
+            <Route path=":projectID" element={<TProjectList />}></Route>
+            <Route path=":PID/:id" element={<ProjectDetails />} />
+            <Route path='about' element={<About />} />
+            <Route path='contact' element={<Contact />} />
           </Route>
           <Route path="admin/:id" element={<AdminDashboard />}>
             <Route path='' element={<EditTeacher />} />

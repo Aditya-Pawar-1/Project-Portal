@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { submitProject } from '../../api';
+import { useNavigate } from 'react-router-dom'
 
 const Submissions = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const studentId = user.id;
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     PID: '',
     githubLink: '',
     presentation: null,
-    projectReport: null,
+    paper: null,
     photographs: null,
   });
 
@@ -27,7 +29,7 @@ const Submissions = () => {
     form.append('PID', formData.PID);
     form.append('githubLink', formData.githubLink);
     form.append('presentation', formData.presentation[0]);
-    form.append('projectReport', formData.projectReport[0]);
+    form.append('paper', formData.paper[0]);
     for (let i = 0; i < formData.photographs.length; i++) {
       form.append('photographs', formData.photographs[i]);
     }
@@ -35,6 +37,7 @@ const Submissions = () => {
     try {
       await submitProject(form, studentId);
       alert('Project submitted successfully');
+      navigate(`/dashboard/student/${studentId}`)
     } catch (error) {
       console.error('Submission error', error);
     }
@@ -71,7 +74,7 @@ const Submissions = () => {
           />
         </div>
         <div>
-          <label className="block font-semibold text-white mb-2">Presentation</label>
+          <label className="block font-semibold text-white mb-2">Presentation (format:pdf)</label>
           <input
             type="file"
             name="presentation"
@@ -80,16 +83,16 @@ const Submissions = () => {
           />
         </div>
         <div>
-          <label className="block font-semibold text-white mb-2">Project Report</label>
+          <label className="block font-semibold text-white mb-2">Project Report (format:docx)</label>
           <input
             type="file"
-            name="projectReport"
+            name="paper"
             onChange={handleFileChange}
             className="w-full p-2 rounded-md cursor-pointer"
           />
         </div>
         <div>
-          <label className="block font-semibold text-white mb-2">Photographs</label>
+          <label className="block font-semibold text-white mb-2">Photograph (format:jpeg)</label>
           <input
             type="file"
             name="photographs"

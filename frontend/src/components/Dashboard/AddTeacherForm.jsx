@@ -26,7 +26,8 @@ const AddTeacherForm = () => {
   };
 
   return (
-    <div className='flex justify-center items-center'>
+    <div className='flex justify-center flex-col items-center'>
+      <h3 className='text-3xl font-bold mb-2'>Add Teacher Details</h3>
       <form onSubmit={handleSubmit} onChange={handleChange} className="bg-[#5500FF] bg-opacity-70 w-[30vw] p-8 rounded-lg space-y-4" encType={'multipart/form-data'}>
         <div>
           <label className="block text-white mb-2">Employee ID</label>

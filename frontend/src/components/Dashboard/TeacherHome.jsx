@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import TProjectCard from '../Project/TProjectCard';
 import { getProjects } from '../../api';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const TeacherHome = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [projects, setProjects] = useState([]);
+    const [projects, setProjects] = useState([]);    
 
     const user = JSON.parse(localStorage.getItem('user'));
     const userId = user.id;

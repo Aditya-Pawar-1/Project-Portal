@@ -39,8 +39,9 @@ const projectSchema = new mongoose.Schema({
   },
 
   submissions: {
-    type: mongoose.Types.ObjectId,
+    type: [mongoose.Types.ObjectId],
     ref: "Submission",
+    default: []
   },
 });
 

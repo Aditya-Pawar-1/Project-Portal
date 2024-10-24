@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getOneProject } from '../../api';
+import { getOneProject} from '../../api';
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const SProjectCard = ({ project }) => {
   const { projectName, PID, submissionDate, Department } = project;
   const [fetchedProject, setFetchedProject] = useState(null);
   const SubDate = submissionDate.substring(0, 10);
+
+  const navigate = useNavigate()
+  let location = useLocation();
+  const handleClick = () => {
+    navigate(location.pathname + `/${PID}`)
+  }
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -25,7 +32,7 @@ const SProjectCard = ({ project }) => {
       <p className="text-white">Project ID: {PID}</p>
       <p className="text-white">Department: {fetchedProject ? fetchedProject.Department : Department}</p>
       <p className="text-white">Submission Date: {SubDate}</p>
-      <button className="mt-4 bg-[#2A007E] text-white py-2 w-full rounded-md">
+      <button onClick={() => handleClick()} className="mt-4 bg-[#2A007E] text-white py-2 w-full rounded-md">
         View Project
       </button>
     </div>

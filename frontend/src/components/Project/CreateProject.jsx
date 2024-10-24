@@ -18,7 +18,6 @@ const CreateProject = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
 
       const { data } = await createProject(formData);
 

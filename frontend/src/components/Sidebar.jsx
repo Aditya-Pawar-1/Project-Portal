@@ -27,7 +27,7 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/about"
+                    to={`/dashboard/${user.role + '/' + user.id}/about`}
                     style={({ isActive, isPending, isTransitioning }) => {
                         return {
                             fontWeight: isActive ? "bold" : "",
@@ -42,7 +42,7 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/contact"
+                   to={`/dashboard/${user.role + '/' + user.id}/contact`}
                     style={({ isActive, isPending, isTransitioning }) => {
                         return {
                             fontWeight: isActive ? "bold" : "",

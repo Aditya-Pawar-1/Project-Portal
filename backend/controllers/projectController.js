@@ -23,6 +23,35 @@ exports.createProject = async (req, res) => {
   }
 };
 
+exports.getSubmissionID = async (req, res) => {
+  const userid = [];
+  
+  try {
+    const project = await Project.findOne({ projectID: req.params.projectID });
+    
+    if (!project) {
+      return res.status(404).send("Project not found");
+    }
+
+    // Use Promise.all to handle multiple async calls correctly
+    const userPromises = project.submissions.map(async (submission) => {
+      const user = await User.findOne({ _id: submission });
+      
+      if (user) {
+         userid.push(user.ID); // Push the user ID directly
+      }
+    });
+
+    await Promise.all(userPromises); // Wait for all promises to resolve
+
+    res.send(userid); // Send the populated userid array
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+
 exports.getProjects = async (req, res) => {
   try {
     let teacher = await User.find({ ID: req.user.id });
@@ -38,8 +67,7 @@ exports.getProjects = async (req, res) => {
 exports.getOneProject = async (req, res) => {
   try {
     let p = await Project.findOne({ projectID: req.params.PID });
-    console.log(p);
-    
+
     res.json(p);
   } catch (err) {
     console.error(err.message);

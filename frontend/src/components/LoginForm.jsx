@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../api.js';
 
 const LoginForm = () => {
@@ -60,6 +60,7 @@ const LoginForm = () => {
             />
           </div>
           <button className='bg-[#2A007E] text-white py-2 w-full rounded-md' type="submit">Login</button>
+          <Link className='font-semibold text-white' to={'/register'}>Are you new user? Register Now </Link>
         </form>
       </div>
     </div>
