@@ -7,10 +7,8 @@
 
 - 🧑‍🎓 **Student Panel**: Upload GitHub links, documents, presentations, and images.
 - 👩‍🏫 **Teacher Panel**: Create assignments, monitor progress, and grade submissions.
-- 👨‍💼 **Admin Panel**: Manage users and system roles.
 - 🔐 **Secure Login**: Role-based access control using JWT.
 - 📂 **File Upload Support**: Supports document, PDF, image, and code file uploads via Multer.
-- 📊 **Interactive UI**: Responsive design using modern frontend libraries.
 
 ---
 
@@ -21,7 +19,6 @@
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
 - **File Uploads**: Multer
-- **State Management**: Context API
 
 ---
 
