@@ -1,15 +1,12 @@
 import axios from "axios";
+const API = axios.create({ baseURL: "https://project-portal-backend.onrender.com/" });
 
-// Create an Axios instance with the base URL
-const API = axios.create({ baseURL: "http://localhost:5000" });
-
-// Attach token to every request
 API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token"); // Retrieve the token from local storage
+  const token = localStorage.getItem("token"); 
   if (token) {
-    req.headers["x-auth-token"] = token; // Attach the token to the request headers
+    req.headers["x-auth-token"] = token;
   }
-  return req; // Return the modified request
+  return req;
 });
 
 // API functions
@@ -29,7 +26,7 @@ export const downloadFile = async (type, id) => {
     const response = await axios.get(
       `http://localhost:5000/api/submissions/download/${type}/${id}`,
       {
-        responseType: "arraybuffer", // Set the response type to handle binary data
+        responseType: "arraybuffer",
       }
     );
     return response;
